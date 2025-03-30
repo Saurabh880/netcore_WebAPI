@@ -1,0 +1,12 @@
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\bin\Debug\net8.0\EmailService.deps.json
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\bin\Debug\net8.0\EmailService.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\bin\Debug\net8.0\EmailService.pdb
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.AssemblyInfoInputs.cache
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.AssemblyInfo.cs
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.csproj.CoreCompileInputs.cache
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\refint\EmailService.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.pdb
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\ref\EmailService.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.csproj.AssemblyReference.cache
