@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+*.json
+/CityInfo.API/AI-keywords.pdf
+/CityInfo.API/upload_file_0cfb37c2-8f4c-4100-b2df-e2cbeaef98c2.pdf
+/CityInfo.API/AppError
