@@ -1,5 +1,6 @@
 using CityInfo.API;
 using CityInfo.API.DbContexts;
+using CityInfo.API.Interface_Repo;
 using CityInfo.API.Services;
 using EmailService;
 using Microsoft.AspNetCore.StaticFiles;
@@ -34,7 +35,12 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddSingleton<CitiesDataStore>();
 
-builder.Services.AddDbContext<CityInfoContext>();
+builder.Services.AddDbContext<CityInfoContext>( );
+
+//Registering the repository
+builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+
+
 
 builder.Services.AddControllers(options =>
 {

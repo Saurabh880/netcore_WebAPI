@@ -10,3 +10,4 @@ C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\refi
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.pdb
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\ref\EmailService.dll
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.csproj.AssemblyReference.cache
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\EmailService\obj\Debug\net8.0\EmailService.sourcelink.json
