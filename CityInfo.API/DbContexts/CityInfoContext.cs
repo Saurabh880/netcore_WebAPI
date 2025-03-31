@@ -22,11 +22,11 @@ namespace CityInfo.API.DbContexts
 
             //The GetSection method is used to access a specific section within the configuration file.
             //we are accessing the "ConnectionStrings" section which contains our database connection strings.
-            var configSection = configuration.GetSection("CityInfoDBContextConnectionString");
+            var configSection = configuration.GetSection("ConnectionStrings");
 
             //Retrieve the connection string value using its key ("SQLServerConnection").
             // The indexer [] is used to access the value corresponding to the "SQLServerConnection" key within the section.
-            var ConnectionStrings = configSection["ConnectionStrings"] ?? null;
+            var ConnectionStrings = configSection["CityInfoDBContextConnectionString"] ?? null;
 
             optionsBuilder.UseSqlite(ConnectionStrings);
             base.OnConfiguring(optionsBuilder);
