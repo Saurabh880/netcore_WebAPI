@@ -185,3 +185,6 @@ C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\tr\M
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\obj\Debug\net8.0\CityInfo.API.sourcelink.json
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\Mapster.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\Mapster.Core.dll
+C:\Users\backt\source\ASP_NET_WebAPI\CityInfo\CityInfo.API\bin\Debug\net8.0\Mapster.DependencyInjection.dll

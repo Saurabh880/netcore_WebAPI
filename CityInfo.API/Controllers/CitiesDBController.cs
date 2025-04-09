@@ -33,14 +33,39 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CityDto> GetCity(int id)
+        public async Task<IActionResult> GetCity(int id , bool includePointsOfInterest = false)
         {
+            var cityEntity = await _cityInfoRepository.GetCity(id, includePointsOfInterest);
+
+            if (cityEntity == null)
+            {
+                return NotFound();
+            }
+            var cityToReturn = new CityDto
+            {
+                Id = cityEntity.Id,
+                Name = cityEntity.Name,
+                Description = cityEntity.Description
+            };
+            if (includePointsOfInterest)
+            {
+                foreach (var pointOfInterest in cityEntity.PointsOfInterest)
+                {
+                    cityToReturn.PointsOfInterest.Add(new PointOfInterestDto
+                    {
+                        Id = pointOfInterest.Id,
+                        Name = pointOfInterest.Name,
+                        Description = pointOfInterest.Description
+                    });
+                }
+            }
+            return Ok(cityToReturn);
             //var cityToReturn = _citiesData.Cities.FirstOrDefault(c => c.Id == id);
             //if (cityToReturn == null)
             //{
             //    return NotFound();
             //}
-            return Ok();
+            //return Ok();
         }
     }
 }
