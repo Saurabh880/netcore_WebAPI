@@ -15,9 +15,9 @@ namespace CityInfo.API.Controllers
             _cityInfoRepository = cityInfoRepository ?? throw new ArgumentNullException(nameof(cityInfoRepository));
         }
         [HttpGet()]
-        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities()
+        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities( string? name)
         {
-            var cityEntities = await _cityInfoRepository.GetCitiesAsync();
+            var cityEntities = await _cityInfoRepository.GetCitiesAsync(name);
 
             var results = new List<CityWithoutPointsOfInteresDto>();
             // mapping the City entities to CityWithoutPointsOfInterestDto's
