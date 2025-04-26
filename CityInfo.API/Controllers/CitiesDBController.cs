@@ -36,12 +36,12 @@ namespace CityInfo.API.Controllers
         public async Task<IActionResult> GetCity(int id , bool includePointsOfInterest = false)
         {
             var cityEntity = await _cityInfoRepository.GetCity(id, includePointsOfInterest);
-
+           
             if (cityEntity == null)
-            {
+            {   
                 return NotFound();
             }
-            var cityToReturn = new CityDto
+            var cityWithoutPOI = new CityWithoutPointsOfInteresDto
             {
                 Id = cityEntity.Id,
                 Name = cityEntity.Name,
@@ -49,23 +49,30 @@ namespace CityInfo.API.Controllers
             };
             if (includePointsOfInterest)
             {
-                foreach (var pointOfInterest in cityEntity.PointsOfInterest)
+                var cityWithPOI = new CityDto
                 {
-                    cityToReturn.PointsOfInterest.Add(new PointOfInterestDto
+                    Id = cityEntity.Id,
+                    Name = cityEntity.Name,
+                    Description = cityEntity.Description
+                };
+                foreach (var poi in cityEntity.PointsOfInterest)
+                {
+                    var pointOfInterestDto = new PointOfInterestDto
                     {
-                        Id = pointOfInterest.Id,
-                        Name = pointOfInterest.Name,
-                        Description = pointOfInterest.Description
-                    });
+                        Id = poi.Id,
+                        Name = poi.Name,
+                        Description = poi.Description
+                    };
+                    if (string.IsNullOrEmpty(pointOfInterestDto.Description))
+                    {
+                        pointOfInterestDto.Description = "No description available";
+                    }
+                    cityWithPOI.PointsOfInterest.Add(pointOfInterestDto);
                 }
+
+                return Ok(cityWithPOI);
             }
-            return Ok(cityToReturn);
-            //var cityToReturn = _citiesData.Cities.FirstOrDefault(c => c.Id == id);
-            //if (cityToReturn == null)
-            //{
-            //    return NotFound();
-            //}
-            //return Ok();
+            return Ok(cityWithoutPOI);            
         }
     }
 }
