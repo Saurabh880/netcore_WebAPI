@@ -1,2 +1,2 @@
 # .netcore_WebAPI
-Web API repo for continuous lerning
+Web API repo for continuous learning

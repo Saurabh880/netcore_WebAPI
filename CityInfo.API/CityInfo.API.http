@@ -1,0 +1,12 @@
+@CityInfo.API_HostAddress = http://localhost:5229
+
+GET {{CityInfo.API_HostAddress}}/api/cities/5
+
+Accept: application/json
+
+GET {{CityInfo.API_HostAddress}}/api/cities
+
+Accept: application/json
+
+
+###
