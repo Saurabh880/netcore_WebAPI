@@ -3,6 +3,7 @@ using CityInfo.API.Interface_Repo;
 using CityInfo.API.Model;
 using CityInfo.API.Services;
 using EmailService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace CityInfo.API.Controllers
 {
     [Route("api/cities/{cityId}/pointofinterestdb")]
+    [Authorize]
     [ApiController]
     public class PointsOfInterestDBController : ControllerBase
     {

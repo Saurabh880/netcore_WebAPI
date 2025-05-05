@@ -1,11 +1,13 @@
 ﻿using CityInfo.API.Interface_Repo;
 using CityInfo.API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace CityInfo.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/citiesdb")]
     public class CitiesDBController : ControllerBase
     {
