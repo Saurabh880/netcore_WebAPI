@@ -9,15 +9,23 @@ namespace CityInfo.API.Controllers
     public class CitiesDBController : ControllerBase
     {
         private readonly ICityInfoRepository _cityInfoRepository;
+        const int maxCitiesPage = 20;
 
         public CitiesDBController(ICityInfoRepository cityInfoRepository)
         {
             _cityInfoRepository = cityInfoRepository ?? throw new ArgumentNullException(nameof(cityInfoRepository));
         }
         [HttpGet()]
-        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities( string? name)
+        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities( string? name, string? searchQuery, int pageNumber=1, int pageSize=10)
         {
-            var cityEntities = await _cityInfoRepository.GetCitiesAsync(name);
+            if(pageSize > maxCitiesPage)
+            {
+                pageSize = maxCitiesPage;
+            }
+
+            var cityEntities = await _cityInfoRepository.GetCitiesAsync(name,searchQuery, pageNumber,pageSize);
+            //var cityEntitiesFiltered = await _cityInfoRepository.GetCitiesAsync(name,null );
+
 
             var results = new List<CityWithoutPointsOfInteresDto>();
             // mapping the City entities to CityWithoutPointsOfInterestDto's
