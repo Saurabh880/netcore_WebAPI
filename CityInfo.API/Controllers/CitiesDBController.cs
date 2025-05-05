@@ -1,6 +1,7 @@
 ﻿using CityInfo.API.Interface_Repo;
 using CityInfo.API.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CityInfo.API.Controllers
 {
@@ -23,7 +24,7 @@ namespace CityInfo.API.Controllers
                 pageSize = maxCitiesPage;
             }
 
-            var cityEntities = await _cityInfoRepository.GetCitiesAsync(name,searchQuery, pageNumber,pageSize);
+            var (cityEntities, paginationMetadata )= await _cityInfoRepository.GetCitiesAsync(name,searchQuery, pageNumber,pageSize);
             //var cityEntitiesFiltered = await _cityInfoRepository.GetCitiesAsync(name,null );
 
 
@@ -37,6 +38,10 @@ namespace CityInfo.API.Controllers
                     Description = cityEntity.Description
                 });
             }
+            //paginationMetadata as a header to our response.
+            //we pass through a name for the header, X‑Pagination, and a value, which, in our case, will be a Serialized version of paginationMetadata
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+
             return Ok(results);
         }
 
