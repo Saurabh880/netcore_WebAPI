@@ -1,14 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "3EHNINCn4CU=",
+  "dgSpecHash": "2y8XeZmRVTs=",
   "success": true,
   "projectFilePath": "C:\\Users\\backt\\source\\ASP_NET_WebAPI\\CityInfo\\CityInfo.API\\CityInfo.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\backt\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\backt\\.nuget\\packages\\mailkit\\3.2.0\\mailkit.3.2.0.nupkg.sha512",
-    "C:\\Users\\backt\\.nuget\\packages\\mapster\\7.4.0\\mapster.7.4.0.nupkg.sha512",
-    "C:\\Users\\backt\\.nuget\\packages\\mapster.core\\1.2.1\\mapster.core.1.2.1.nupkg.sha512",
-    "C:\\Users\\backt\\.nuget\\packages\\mapster.dependencyinjection\\1.0.1\\mapster.dependencyinjection.1.0.1.nupkg.sha512",
     "C:\\Users\\backt\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\10.0.0-preview.2.25164.1\\microsoft.aspnetcore.jsonpatch.10.0.0-preview.2.25164.1.nupkg.sha512",
     "C:\\Users\\backt\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\8.0.10\\microsoft.aspnetcore.mvc.newtonsoftjson.8.0.10.nupkg.sha512",
     "C:\\Users\\backt\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
