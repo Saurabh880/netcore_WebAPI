@@ -19,6 +19,42 @@ namespace CityInfo.API.Services
                 OrderBy(c=>c.Name).ToListAsync();
         }
 
+        public async Task<(IEnumerable<City>, PaginationMetaData)> GetCitiesAsync(string? name, string? searchQuery, int pageNumber, int pageSize)
+        {
+            //as we are using pagination no matter what
+            //if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(searchQuery))
+            //{
+            //    return await GetCitiesAsync();
+            //}
+
+            var collection = _cityInfoContext.CityInfos as IQueryable<City>;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = name.Trim();
+                collection = collection.Where(c => c.Name == name);
+            }
+
+            if(!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.Trim();
+                collection = collection.Where(c => c.Name.Contains(searchQuery) ||
+                (c.Description != null && c.Description.Contains(searchQuery)));
+            }
+            //counting all the items in the collection
+            var totalItemCount = await collection.CountAsync();
+
+            //we pass through that totalItemCount and the pageSize and the pageNumber
+            var paginationMetaData = new PaginationMetaData(totalItemCount, pageSize, pageNumber);
+
+            var collectionToReturn =  await collection.OrderBy(c => c.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);
+        }
+
         public async Task<City?> GetCity(int cityId, bool includePointOfInterest)
         {
             if (includePointOfInterest) 
@@ -60,6 +96,10 @@ namespace CityInfo.API.Services
         public async Task<bool> SaveChangesAsync()
         {
             return (await _cityInfoContext.SaveChangesAsync() >= 0);
+        }
+        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+        {
+            _cityInfoContext.PointsOfInterest.Remove(pointOfInterest);
         }
     }
 }

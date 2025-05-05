@@ -1,6 +1,7 @@
 ﻿using CityInfo.API.Interface_Repo;
 using CityInfo.API.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CityInfo.API.Controllers
 {
@@ -9,15 +10,23 @@ namespace CityInfo.API.Controllers
     public class CitiesDBController : ControllerBase
     {
         private readonly ICityInfoRepository _cityInfoRepository;
+        const int maxCitiesPage = 20;
 
         public CitiesDBController(ICityInfoRepository cityInfoRepository)
         {
             _cityInfoRepository = cityInfoRepository ?? throw new ArgumentNullException(nameof(cityInfoRepository));
         }
         [HttpGet()]
-        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities()
+        public  async Task<ActionResult<IEnumerable<CityWithoutPointsOfInteresDto>>> GetCities( string? name, string? searchQuery, int pageNumber=1, int pageSize=10)
         {
-            var cityEntities = await _cityInfoRepository.GetCitiesAsync();
+            if(pageSize > maxCitiesPage)
+            {
+                pageSize = maxCitiesPage;
+            }
+
+            var (cityEntities, paginationMetadata )= await _cityInfoRepository.GetCitiesAsync(name,searchQuery, pageNumber,pageSize);
+            //var cityEntitiesFiltered = await _cityInfoRepository.GetCitiesAsync(name,null );
+
 
             var results = new List<CityWithoutPointsOfInteresDto>();
             // mapping the City entities to CityWithoutPointsOfInterestDto's
@@ -29,6 +38,10 @@ namespace CityInfo.API.Controllers
                     Description = cityEntity.Description
                 });
             }
+            //paginationMetadata as a header to our response.
+            //we pass through a name for the header, X‑Pagination, and a value, which, in our case, will be a Serialized version of paginationMetadata
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+
             return Ok(results);
         }
 
