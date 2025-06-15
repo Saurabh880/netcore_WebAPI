@@ -9,7 +9,7 @@ namespace CityInfo.API.Controllers
 {
     [ApiController]
     //[Authorize]
-    [Route("api/citiesdb")]
+    [Route("api/v{version:apiVersion}/citiesdb")]
     [ApiVersion(1)]
     [ApiVersion(2)]
     public class CitiesDBController : ControllerBase
@@ -49,8 +49,17 @@ namespace CityInfo.API.Controllers
 
             return Ok(results);
         }
-
+        /// <summary>
+        /// Gets a specific city by its ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="includePointsOfInterest">Whether or not to include the POI</param>
+        /// <returns>A city with or without POI</returns>
+        ///  <response code="200">Returns the city with or without POI</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         public async Task<IActionResult> GetCity(int id , bool includePointsOfInterest = false)
         {
             var cityEntity = await _cityInfoRepository.GetCity(id, includePointsOfInterest);
