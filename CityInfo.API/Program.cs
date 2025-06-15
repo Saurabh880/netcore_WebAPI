@@ -36,7 +36,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddSingleton<CitiesDataStore>();
 
-builder.Services.AddDbContext<CityInfoContext>( );
+builder.Services.AddDbContext<CityInfoContext>();
 
 //Registering the repository
 builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
@@ -82,6 +82,16 @@ builder.Services.AddAuthentication("Bearer")
             IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(builder.Configuration["Authentication:SecretForkey"]))
         };
     });
+
+//adding policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("MustBeFromAntwerp", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("city","Antwerp");
+    });
+});
 
 var app = builder.Build();
 

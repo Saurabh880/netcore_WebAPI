@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace CityInfo.API.Controllers
 {
@@ -51,11 +52,13 @@ namespace CityInfo.API.Controllers
                 return Unauthorized();
             }
             //Step 2: Create the token
+            //var secureKey = new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Authentication:SecretForkey"]));
             var secureKey = new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Authentication:SecretForkey"]));
 
+            //signing credentials using the secure key and the HMAC SHA256 algorithm
             var credentials = new SigningCredentials(secureKey, SecurityAlgorithms.HmacSha256);
 
-            //the claims we want to include in the token
+            //the claims we want to include in the token. These are key value pairs that represent the user's identity and other information about the user.
             var claimsForToken = new List<Claim>();
             claimsForToken.Add(new Claim("sub", user.UserId.ToString()));
             claimsForToken.Add(new Claim("given_name", user.FirstName));
@@ -81,7 +84,7 @@ namespace CityInfo.API.Controllers
             //In a real world application, you would validate the user's credentials against a database or an external authentication provider.
             //For this example, we will just check if the username and password are not null or empty
             
-            return new CityInfoUser ( 1, userName ?? "","Kevin","Sins","Antwerp");
+            return new CityInfoUser ( 1, userName ?? "","Kevin","Sins","New York City");
         }
     }
 }

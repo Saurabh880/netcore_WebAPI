@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace CityInfo.API.Controllers
 {
     [Route("api/cities/{cityId}/pointofinterestdb")]
-    [Authorize]
+    [Authorize(Policy = "MustBeFromAntwerp")]
     [ApiController]
     public class PointsOfInterestDBController : ControllerBase
     {
@@ -37,6 +38,12 @@ namespace CityInfo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PointOfInterestDto>>> GetPointsOfInterest(int cityId)
         {
+            var cityName = User.Claims.FirstOrDefault(c => c.Type == "city")?.Value;
+
+            if(!await _cityInfoRepository.CityNameMatchesUserClaimAsync(cityId, cityName))
+            {
+                return Forbid();
+            }
             if (!await _cityInfoRepository.IfCityExistsAsync(cityId)) {
                 _logger.LogInformation(
                     $"City with Id {cityId} wasn't found when accessing the Points of Interest.");
