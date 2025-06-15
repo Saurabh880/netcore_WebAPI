@@ -1,4 +1,5 @@
-﻿using CityInfo.API.Entities;
+﻿using Asp.Versioning;
+using CityInfo.API.Entities;
 using CityInfo.API.Interface_Repo;
 using CityInfo.API.Model;
 using CityInfo.API.Services;
@@ -12,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Controllers
 {
-    [Route("api/cities/{cityId}/pointofinterestdb")]
+    [Route("api/v{version:apiVersion}/cities/{cityId}/pointofinterestdb")]
     [Authorize(Policy = "MustBeFromAntwerp")]
     [ApiController]
+    [ApiVersion(2)]
     public class PointsOfInterestDBController : ControllerBase
     {
         private readonly ILogger<PointsOfInterestController> _logger;
@@ -40,10 +42,11 @@ namespace CityInfo.API.Controllers
         {
             var cityName = User.Claims.FirstOrDefault(c => c.Type == "city")?.Value;
 
-            if(!await _cityInfoRepository.CityNameMatchesUserClaimAsync(cityId, cityName))
-            {
-                return Forbid();
-            }
+            //uncomment when using authentication 
+            //if(!await _cityInfoRepository.CityNameMatchesUserClaimAsync(cityId, cityName))
+            //{
+            //    return Forbid();
+            //}
             if (!await _cityInfoRepository.IfCityExistsAsync(cityId)) {
                 _logger.LogInformation(
                     $"City with Id {cityId} wasn't found when accessing the Points of Interest.");

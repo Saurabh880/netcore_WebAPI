@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Asp.Versioning;
+using System.Reflection;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.OpenApi.Models;
 
 //Configure serilog -  Log is defined in the Serilog namespace
 Log.Logger = new LoggerConfiguration()
@@ -63,7 +67,8 @@ builder.Services.AddProblemDetails(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
 
 //registering the file extension content type provider
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
@@ -93,6 +98,61 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddApiVersioning(setupAction =>
+{
+    setupAction.AssumeDefaultVersionWhenUnspecified = true; //This will assume the default version when no version is specified in the request
+    setupAction.DefaultApiVersion = new ApiVersion(1, 0); //This will set the default version to 1.0
+    setupAction.ReportApiVersions = true; //This will add the api version information to the response headers
+}).AddMvc()
+.AddApiExplorer(setupAction =>
+{
+    setupAction.SubstituteApiVersionInUrl = true;
+    setupAction.GroupNameFormat = "'v'VVV"; //This will format the version in the URL as v1, v2, etc.
+});
+var apiVersionDescription = builder.Services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+
+builder.Services.AddSwaggerGen(setupAction =>
+{
+
+    foreach(var descr in apiVersionDescription.ApiVersionDescriptions)
+    {
+        setupAction.SwaggerDoc(
+            $"{descr.GroupName}",
+            new()
+            {
+                Title = "City Info API",
+                Version = descr.ApiVersion.ToString(),
+                Description = "This API provides information about cities and points of interest.",
+            });
+    }
+
+    var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; //This will be the name of the XML file that contains the comments for our API
+    var xmlCommentFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile); //This will get the full path to the XML file
+    setupAction.IncludeXmlComments(xmlCommentFullPath); //This will include the XML comments in the Swagger documentation
+
+    setupAction.AddSecurityDefinition("CityInfoApiBearerToken", new()
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Input a valid token to access this API"
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "CityInfoApiBearerToken"
+                }
+            },
+            new List<string>()
+        }
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -105,7 +165,17 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setupAction =>
+    {
+        var descriptions = app.DescribeApiVersions();
+        foreach (var description in descriptions)
+        {
+            setupAction.SwaggerEndpoint(
+                $"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+        //setupAction.RoutePrefix = string.Empty; //This will set the Swagger UI to be served at the root of the application
+    });
 }
 
 
