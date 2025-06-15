@@ -75,6 +75,9 @@ namespace CityInfo.API.Controllers
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
+            //token created using the dotnet user-jwts command line tool, which is a tool that allows you to create and manage JWTs for testing purposes.
+            //dotnet user-jwts create --issuer https://localhost:5229 --audience cityinfoapi --claim "city=Antwerp"
+
             //Step 3: Return the token
             return Ok(tokenString);
 
@@ -84,6 +87,7 @@ namespace CityInfo.API.Controllers
             //In a real world application, you would validate the user's credentials against a database or an external authentication provider.
             //For this example, we will just check if the username and password are not null or empty
             
+            //change City name to Antwrep to create new item as policy is in place
             return new CityInfoUser ( 1, userName ?? "","Kevin","Sins","New York City");
         }
     }
