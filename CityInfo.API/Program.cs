@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Asp.Versioning;
 
 //Configure serilog -  Log is defined in the Serilog namespace
 Log.Logger = new LoggerConfiguration()
@@ -92,6 +93,14 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("city","Antwerp");
     });
 });
+
+builder.Services.AddApiVersioning(setupAction =>
+{
+    setupAction.AssumeDefaultVersionWhenUnspecified = true; //This will assume the default version when no version is specified in the request
+    setupAction.DefaultApiVersion = new ApiVersion(1, 0); //This will set the default version to 1.0
+    setupAction.ReportApiVersions = true; //This will add the api version information to the response headers
+}).AddMvc();
+
 
 var app = builder.Build();
 

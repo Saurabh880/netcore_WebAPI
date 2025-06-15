@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -17,6 +18,7 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpGet("{fileId}")]
+        [ApiVersion(0.1,Deprecated = true)] // This indicates that this version is deprecated
         public ActionResult GetFile(string fileId)
         {
             var pathtotFile = "AI-keywords.pdf";
