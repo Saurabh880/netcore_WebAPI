@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace CityInfo.API.Controllers
 {
     [Route("api/v{version:apiVersion}/cities/{cityId}/pointofinterestdb")]
-    //[Authorize(Policy = "MustBeFromAntwerp")]
+    [Authorize(Policy = "MustBeFromAntwerp")]
     [ApiController]
     [ApiVersion(2)]
     public class PointsOfInterestDBController : ControllerBase

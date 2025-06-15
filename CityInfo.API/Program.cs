@@ -11,6 +11,7 @@ using Serilog;
 using Asp.Versioning;
 using System.Reflection;
 using Asp.Versioning.ApiExplorer;
+using Microsoft.OpenApi.Models;
 
 //Configure serilog -  Log is defined in the Serilog namespace
 Log.Logger = new LoggerConfiguration()
@@ -128,6 +129,28 @@ builder.Services.AddSwaggerGen(setupAction =>
     var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; //This will be the name of the XML file that contains the comments for our API
     var xmlCommentFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile); //This will get the full path to the XML file
     setupAction.IncludeXmlComments(xmlCommentFullPath); //This will include the XML comments in the Swagger documentation
+
+    setupAction.AddSecurityDefinition("CityInfoApiBearerToken", new()
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Input a valid token to access this API"
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "CityInfoApiBearerToken"
+                }
+            },
+            new List<string>()
+        }
+    });
 });
 
 var app = builder.Build();
