@@ -56,13 +56,13 @@ namespace CityInfo.API.Controllers
         /// <param name="includePointsOfInterest">Whether or not to include the POI</param>
         /// <returns>A city with or without POI</returns>
         ///  <response code="200">Returns the city with or without POI</response>
-        [HttpGet("{id}")]
+        [HttpGet("{cityId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public async Task<IActionResult> GetCity(int id , bool includePointsOfInterest = false)
+        public async Task<IActionResult> GetCity(int cityId , bool includePointsOfInterest = false)
         {
-            var cityEntity = await _cityInfoRepository.GetCity(id, includePointsOfInterest);
+            var cityEntity = await _cityInfoRepository.GetCity(cityId, includePointsOfInterest);
            
             if (cityEntity == null)
             {   
